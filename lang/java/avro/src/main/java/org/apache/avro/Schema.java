@@ -810,7 +810,7 @@ public abstract class Schema extends JsonProperties implements Serializable {
         LockableArrayList<String> symbols) {
       super(Type.ENUM, name, doc);
       this.symbols = symbols.lock();
-      this.ordinals = new HashMap<String,Integer>();
+      this.ordinals = new HashMap<String,Integer>(symbols.size());
       int i = 0;
       for (String symbol : symbols)
         if (ordinals.put(validateName(symbol), i++) != null)
