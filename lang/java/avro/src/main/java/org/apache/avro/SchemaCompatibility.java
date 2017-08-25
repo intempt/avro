@@ -300,9 +300,14 @@ public class SchemaCompatibility {
             // TODO: Report a human-readable error.
             // if (!symbols.isEmpty()) {
             // }
-            return symbols.isEmpty()
-                ? SchemaCompatibilityType.COMPATIBLE
-                : SchemaCompatibilityType.INCOMPATIBLE;
+            if (symbols.isEmpty()) {
+              return SchemaCompatibilityType.COMPATIBLE;
+            } else {
+              String fallbackSymbol = ((Schema.EnumSchema) reader).getFallbackSymbol();
+              return (fallbackSymbol == null)
+                      ? SchemaCompatibilityType.INCOMPATIBLE : SchemaCompatibilityType.COMPATIBLE;
+            }
+
           }
           case RECORD: {
             // record names must match:

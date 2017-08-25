@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.apache.avro.AvroTypeException;
 import org.apache.avro.Schema;
+import org.apache.avro.Schema.EnumSchema;
 import org.apache.avro.Schema.Field;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
@@ -89,18 +90,19 @@ public class ResolvingGrammarGenerator extends ValidatingGrammarGenerator {
         return Symbol.BYTES;
       case FIXED:
         if (writer.getFullName().equals(reader.getFullName())
-            && writer.getFixedSize() == reader.getFixedSize()) {
+                && writer.getFixedSize() == reader.getFixedSize()) {
           return Symbol.seq(Symbol.intCheckAction(writer.getFixedSize()),
-              Symbol.FIXED);
+                  Symbol.FIXED);
         }
         break;
 
-      case ENUM:
-        if (writer.getFullName() == null
-                || writer.getFullName().equals(reader.getFullName())) {
-          return Symbol.seq(mkEnumAdjust(writer.getEnumSymbols(),
-                  reader.getEnumSymbols()), Symbol.ENUM);
+      case ENUM:  {
+        String fullName = writer.getFullName();
+        if (fullName == null
+                || fullName.equals(reader.getFullName())) {
+          return Symbol.seq(mkEnumAdjust(writer, reader), Symbol.ENUM);
         }
+      }
         break;
 
       case ARRAY:
@@ -416,13 +418,23 @@ public class ResolvingGrammarGenerator extends ValidatingGrammarGenerator {
     }
   }
 
-  private static Symbol mkEnumAdjust(List<String> wsymbols,
-      List<String> rsymbols){
+  private static Symbol mkEnumAdjust(final Schema writerSchema,
+      final Schema readerSchema){
+    List<String> wsymbols = writerSchema.getEnumSymbols();
+    List<String> rsymbols = readerSchema.getEnumSymbols();
     Object[] adjustments = new Object[wsymbols.size()];
     for (int i = 0; i < adjustments.length; i++) {
       int j = rsymbols.indexOf(wsymbols.get(i));
-      adjustments[i] = (j == -1 ? "No match for " + wsymbols.get(i)
-                                : new Integer(j));
+      if (j == -1) {
+        String fallbackSymbol = ((EnumSchema) readerSchema).getFallbackSymbol();
+        if (fallbackSymbol != null) {
+          adjustments[i] = readerSchema.getEnumOrdinal(fallbackSymbol);
+        } else {
+          adjustments[i] = "No match for " + wsymbols.get(i);
+        }
+      } else {
+        adjustments[i] = j;
+      }
     }
     return Symbol.enumAdjustAction(rsymbols.size(), adjustments);
   }

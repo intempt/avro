@@ -803,7 +803,7 @@ public abstract class Schema extends JsonProperties implements Serializable {
     }
   }
 
-  private static class EnumSchema extends NamedSchema {
+  public static class EnumSchema extends NamedSchema {
     private final List<String> symbols;
     private final Map<String,Integer> ordinals;
     public EnumSchema(Name name, String doc,
@@ -817,6 +817,32 @@ public abstract class Schema extends JsonProperties implements Serializable {
           throw new SchemaParseException("Duplicate enum symbol: "+symbol);
     }
     public List<String> getEnumSymbols() { return symbols; }
+
+    public Map<String, List<String>> getSymbolAliasses() {
+      return (Map<String, List<String>>) this.getObjectProp("symbolAliasses");
+    }
+
+    public String getFallbackSymbol() {
+      return (String) this.getObjectProp("fallbackSymbol");
+    }
+
+    @Override
+    public void addProp(String name, JsonNode value) {
+      if ("fallbackSymbol".equals(name) && !symbols.contains(value.getTextValue())) {
+        throw new AvroTypeException("Enum fallbackSymbol " + value + " must be one of " + symbols);
+      }
+      super.addProp(name, value);
+    }
+
+    @Override
+    public void addJsonProps(Map<String, JsonNode> xtraProps) {
+      JsonNode val = xtraProps.get("fallbackSymbol");
+      if (val != null && !symbols.contains(val.getTextValue())) {
+        throw new AvroTypeException("Enum fallbackSymbol " + val + " must be one of " + symbols);
+      }
+      super.addJsonProps(xtraProps);
+    }
+
     public boolean hasEnumSymbol(String symbol) {
       return ordinals.containsKey(symbol); }
     public int getEnumOrdinal(String symbol) { return ordinals.get(symbol); }
