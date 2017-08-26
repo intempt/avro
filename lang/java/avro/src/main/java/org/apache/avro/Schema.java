@@ -844,8 +844,27 @@ public abstract class Schema extends JsonProperties implements Serializable {
     }
 
     public boolean hasEnumSymbol(String symbol) {
-      return ordinals.containsKey(symbol); }
+      return ordinals.containsKey(symbol);
+    }
+
     public int getEnumOrdinal(String symbol) { return ordinals.get(symbol); }
+
+    public int getEnumSymbolOrAliasOrdinal(String soa) {
+      Integer ordinal = ordinals.get(soa);
+      if (ordinal != null) {
+        return ordinal;
+      }
+      Map<String, List<String>> aliasses = getSymbolAliasses();
+      if (aliasses != null) {
+        for (Map.Entry<String, List<String>> entry : aliasses.entrySet()) {
+          if (entry.getValue().contains(soa)) {
+            return ordinals.get(entry.getKey());
+          }
+        }
+      }
+      return -1;
+    }
+
     public boolean equals(Object o) {
       if (o == this) return true;
       if (!(o instanceof EnumSchema)) return false;

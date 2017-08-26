@@ -100,7 +100,7 @@ public class ResolvingGrammarGenerator extends ValidatingGrammarGenerator {
         String fullName = writer.getFullName();
         if (fullName == null
                 || fullName.equals(reader.getFullName())) {
-          return Symbol.seq(mkEnumAdjust(writer, reader), Symbol.ENUM);
+          return Symbol.seq(mkEnumAdjust((EnumSchema) writer, (EnumSchema) reader), Symbol.ENUM);
         }
       }
         break;
@@ -418,19 +418,35 @@ public class ResolvingGrammarGenerator extends ValidatingGrammarGenerator {
     }
   }
 
-  private static Symbol mkEnumAdjust(final Schema writerSchema,
-      final Schema readerSchema){
+  private static Symbol mkEnumAdjust(final EnumSchema writerSchema,
+      final EnumSchema readerSchema){
     List<String> wsymbols = writerSchema.getEnumSymbols();
     List<String> rsymbols = readerSchema.getEnumSymbols();
     Object[] adjustments = new Object[wsymbols.size()];
     for (int i = 0; i < adjustments.length; i++) {
-      int j = rsymbols.indexOf(wsymbols.get(i));
+      String ws = wsymbols.get(i);
+      int j = readerSchema.getEnumSymbolOrAliasOrdinal(ws);
       if (j == -1) {
-        String fallbackSymbol = ((EnumSchema) readerSchema).getFallbackSymbol();
+        // try writer aliasses
+        Map<String, List<String>> symbolAliasses = writerSchema.getSymbolAliasses();
+        if (symbolAliasses != null) {
+          List<String> aliases = symbolAliasses.get(ws);
+          if (aliases != null) {
+            for (String alias : aliases) {
+              j = readerSchema.getEnumSymbolOrAliasOrdinal(alias);
+              if (j != -1) {
+                break;
+              }
+            }
+          }
+        }
+      }
+      if (j == -1) {
+        String fallbackSymbol = readerSchema.getFallbackSymbol();
         if (fallbackSymbol != null) {
           adjustments[i] = readerSchema.getEnumOrdinal(fallbackSymbol);
         } else {
-          adjustments[i] = "No match for " + wsymbols.get(i);
+          adjustments[i] = "No match for " + ws;
         }
       } else {
         adjustments[i] = j;
