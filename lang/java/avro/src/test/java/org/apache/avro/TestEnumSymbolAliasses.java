@@ -155,6 +155,14 @@ public class TestEnumSymbolAliasses {
 
   }
 
-
+  @Test(expected = AvroTypeException.class)
+  public void testEnumValidation() {
+        SchemaBuilder
+            .record("myrecord").namespace("org.example").aliases("oldrecord").fields()
+            .name("f0").aliases("f0alias").type().enumeration("MyEnum")
+            .prop("symbolAliasses", JacksonUtils.toJsonNode(ImmutableMap.of("X", Arrays.asList("B"))))
+            .symbols("UNKNOWN", "A", "B", "C").noDefault()
+            .endRecord();
+  }
 
 }

@@ -828,18 +828,43 @@ public abstract class Schema extends JsonProperties implements Serializable {
 
     @Override
     public void addProp(String name, JsonNode value) {
-      if ("fallbackSymbol".equals(name) && !symbols.contains(value.getTextValue())) {
-        throw new AvroTypeException("Enum fallbackSymbol " + value + " must be one of " + symbols);
+      switch (name) {
+        case "fallbackSymbol":
+          validateFalbackSymbol(value);
+          break;
+        case "symbolAliasses":
+          validateSymbolAliasses(value);
+          break;
       }
       super.addProp(name, value);
+    }
+
+    public void validateFalbackSymbol(JsonNode value) throws AvroTypeException {
+      if (!symbols.contains(value.getTextValue())) {
+        throw new AvroTypeException("Enum fallbackSymbol " + value + " must be one of " + symbols);
+      }
+    }
+
+    private void validateSymbolAliasses(JsonNode value) throws AvroTypeException {
+      Map<String, List<String>> sAliasses = (Map<String, List<String>>) JacksonUtils.toObject(value);
+      for (String symbol : sAliasses.keySet()) {
+        if (!symbols.contains(symbol)) {
+          throw new AvroTypeException("Enum symbo " + symbol + " does not exist in " + symbols);
+        }
+      }
     }
 
     @Override
     public void addJsonProps(Map<String, JsonNode> xtraProps) {
       JsonNode val = xtraProps.get("fallbackSymbol");
-      if (val != null && !symbols.contains(val.getTextValue())) {
-        throw new AvroTypeException("Enum fallbackSymbol " + val + " must be one of " + symbols);
+      if (val != null) {
+        validateFalbackSymbol(val);
       }
+      JsonNode sa = xtraProps.get("symbolAliasses");
+      if (sa != null) {
+        validateSymbolAliasses(sa);
+      }
+
       super.addJsonProps(xtraProps);
     }
 
