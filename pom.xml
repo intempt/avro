@@ -30,7 +30,7 @@
 
   <groupId>org.apache.avro</groupId>
   <artifactId>avro-toplevel</artifactId>
-  <version>1.10.0.10p-SNAPSHOT</version>
+  <version>1.10.0.11p-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>${project.artifactId} - ${project.version}</name>
