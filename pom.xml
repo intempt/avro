@@ -131,6 +131,7 @@
                 <useReleaseProfile>false</useReleaseProfile>
                 <goals>deploy</goals>
                 <arguments combine.self="override" />
+                <tagNameFormat>@{project.version}</tagNameFormat>
               </configuration>
             </plugin>
             <plugin>
