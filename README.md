@@ -184,5 +184,4 @@ will serialize in json to:
  * [core-schema](https://github.com/zolyfarkas/core-schema)
  * [generic examples](https://github.com/zolyfarkas/avro-schema-examples)
 
- for more info see: https://bintray.com/zolyfarkas/core/avro
 
