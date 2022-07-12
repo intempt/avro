@@ -196,11 +196,13 @@
             </goals>
             <configuration>
               <rules>
+<!--   disable to attempt to make jitpack happy
                 <requireProperty>
                   <property>project.version</property>
                   <regex>${env.VERSION}</regex>
                   <regexMessage>*****!!!!! Version of project must be ${env.VERSION} not ${project.version} !!!!!*****</regexMessage>
                 </requireProperty>
+-->
                 <enforceBytecodeVersion>
                   <maxJdkVersion>1.8</maxJdkVersion>
                 </enforceBytecodeVersion>
