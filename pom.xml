@@ -199,7 +199,7 @@
                 <requireProperty>
                   <property>project.version</property>
                   <regex>${env.VERSION}</regex>
-                  <regexMessage>*****!!!!! Version of project must be ${env.VERSION} !!!!!*****</regexMessage>
+                  <regexMessage>*****!!!!! Version of project must be ${env.VERSION} not ${project.version} !!!!!*****</regexMessage>
                 </requireProperty>
                 <enforceBytecodeVersion>
                   <maxJdkVersion>1.8</maxJdkVersion>
