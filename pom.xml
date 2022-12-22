@@ -30,7 +30,7 @@
 
   <groupId>org.apache.avro</groupId>
   <artifactId>avro-toplevel</artifactId>
-  <version>1.10.0.12p-SNAPSHOT</version>
+  <version>1.10.0.12p</version>
   <packaging>pom</packaging>
 
   <name>${project.artifactId} - ${project.version}</name>
@@ -91,7 +91,7 @@
     <connection>scm:git:https://github.com/zolyfarkas/avro.git</connection>  
     <developerConnection>scm:git:https://github.com/zolyfarkas/avro.git</developerConnection>
     <url>https://github.com/zolyfarkas/avro/</url>
-    <tag>HEAD</tag>
+    <tag>1.10.0.12p</tag>
   </scm>  
 
     
