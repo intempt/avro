@@ -481,6 +481,39 @@ public abstract class Schema extends JsonProperties implements Serializable {
     }
   }
 
+  /**
+   * Render this as <a href="https://json.org/">JSON</a>, but without inlining the
+   * referenced schemas.
+   *
+   * @param referencedSchemas referenced schemas
+   * @param pretty            if true, pretty-print JSON.
+   */
+  // Use at your own risk. This method should be removed with AVRO-2832.
+  @Deprecated
+  public String toString(Collection<Schema> referencedSchemas, boolean pretty) {
+    Schema.Names names = new Schema.Names();
+    if (referencedSchemas != null) {
+      for (Schema s : referencedSchemas) {
+        names.add(s);
+      }
+    }
+    return toString(names, pretty);
+  }
+
+  String toString(Names names, boolean pretty) {
+    try {
+      StringWriter writer = new StringWriter();
+      JsonGenerator gen = FACTORY.createGenerator(writer);
+      if (pretty)
+        gen.useDefaultPrettyPrinter();
+      toJson(names, gen);
+      gen.flush();
+      return writer.toString();
+    } catch (IOException e) {
+      throw new AvroRuntimeException(e);
+    }
+  }
+
   public void toJson(final JsonGenerator gen) throws IOException {
     toJson(new Names(), gen);
   }
