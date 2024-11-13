@@ -1,0 +1,64 @@
+name: Publish package to the Maven Central Repository
+on:
+  push:
+    branches:
+      - trunk
+    tags:
+      - '*'
+
+env:
+  java-version: 21
+  aws-region: us-east-1
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  GH_USERNAME: ${{ secrets.GH_USERNAME }}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up JDK ${{ env.java-version }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.java-version }}
+          distribution: 'corretto'
+          server-id: github
+          server-username: GH_USERNAME
+          server-password: GH_TOKEN
+
+      - name: Cache Local Maven Repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn -B package
+
+      - name: Test with maven
+        run: mvn -B test
+
+      - name: ref
+        env:
+          COMMIT_INFO_REF: ${{ github.ref }}
+        run: echo "COMMIT_INFO_REF" "$COMMIT_INFO_REF"
+
+      - name: ref_name
+        env:
+          COMMIT_INFO_REF_NAME: ${{ github.ref_name }}
+        run: echo "COMMIT_INFO_REF_NAME" "$COMMIT_INFO_REF_NAME"
+
+      - name: Publish as snapshot
+        env:
+          MAVEN_USERNAME: GH_USERNAME
+          MAVEN_PASSWORD: GH_TOKEN
+        run: mvn --batch-mode deploy
+
+      - name: Publish as release
+        if: github.ref_name == 'trunk'
+        env:
+          MAVEN_USERNAME: GH_USERNAME
+          MAVEN_PASSWORD: GH_TOKEN
+        run: mvn --batch-mode deploy -Drevision-postfix=""
+
