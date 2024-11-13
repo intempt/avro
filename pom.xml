@@ -68,17 +68,10 @@
     <distributionManagement>
        <repository>
          <id>github</id>
-         <name>GitHub zolyfarkas avro Apache Maven Packages</name>
-         <url>https://maven.pkg.github.com/zolyfarkas/avro</url>
+         <name>GitHub Intempt's Apache Maven Packages</name>
+         <url>https://maven.pkg.github.com/intempt/avro</url>
        </repository>
-       <snapshotRepository>
-         <id>github</id>
-         <name>GitHub zolyfarkas avro Apache Maven Packages</name>
-         <url>https://maven.pkg.github.com/zolyfarkas/avro</url>
-       </snapshotRepository>
     </distributionManagement>
-
-
 
 
   <modules>
@@ -86,15 +79,6 @@
     <module>lang/java</module>
   </modules>
 
-
-  <scm>
-    <connection>scm:git:https://github.com/zolyfarkas/avro.git</connection>  
-    <developerConnection>scm:git:https://github.com/zolyfarkas/avro.git</developerConnection>
-    <url>https://github.com/zolyfarkas/avro/</url>
-    <tag>HEAD</tag>
-  </scm>  
-
-    
 
   <issueManagement>
     <system>jira</system>
