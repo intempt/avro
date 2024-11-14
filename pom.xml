@@ -15,403 +15,409 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <prerequisites>
-    <maven>2.2.1</maven>
-  </prerequisites>
+    <prerequisites>
+        <maven>2.2.1</maven>
+    </prerequisites>
 
-  <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>23</version>
-  </parent>
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>23</version>
+    </parent>
 
-  <groupId>org.apache.avro</groupId>
-  <artifactId>avro-toplevel</artifactId>
-  <version>1.10.0.13p-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <groupId>org.apache.avro</groupId>
+    <artifactId>avro-toplevel</artifactId>
+    <version>1.10.0.13p-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <name>${project.artifactId} - ${project.version}</name>
-  <url>http://avro.apache.org</url>
-  <description>Avro toplevel pom</description>
+    <name>${project.artifactId} - ${project.version}</name>
+    <url>http://avro.apache.org</url>
+    <description>Avro toplevel pom</description>
 
-  <!-- This project is used for top level build tasks and artifact copying.
-       The RAT task is run to validate licenses.  The Enforcer plugin is used
-       to validate that java projects are the correct version.
-       Java artifacts are copied to the final build destination with a custom profile.
-       -->
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <avro.distDir>dist</avro.distDir>
-    <avro.docDir>build/avro-doc-${project.version}/api</avro.docDir>
-    <!-- dependency plugin versions -->
-    <apache-rat-tasks.version>0.7</apache-rat-tasks.version>
+    <!-- This project is used for top level build tasks and artifact copying.
+         The RAT task is run to validate licenses.  The Enforcer plugin is used
+         to validate that java projects are the correct version.
+         Java artifacts are copied to the final build destination with a custom profile.
+         -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <avro.distDir>dist</avro.distDir>
+        <avro.docDir>build/avro-doc-${project.version}/api</avro.docDir>
+        <!-- dependency plugin versions -->
+        <apache-rat-tasks.version>0.7</apache-rat-tasks.version>
 
-    <!-- plugin versions -->
-    <antrun-plugin.version>1.7</antrun-plugin.version>
-    <enforcer-plugin.version>3.0.0-M3</enforcer-plugin.version>
-    <extra-enforcer-rules.version>1.2</extra-enforcer-rules.version>
-    <rat.version>0.9</rat.version>
-    <checkstyle-plugin.version>3.1.1</checkstyle-plugin.version>
-  </properties>
+        <!-- plugin versions -->
+        <antrun-plugin.version>1.7</antrun-plugin.version>
+        <enforcer-plugin.version>3.0.0-M3</enforcer-plugin.version>
+        <extra-enforcer-rules.version>1.2</extra-enforcer-rules.version>
+        <rat.version>0.9</rat.version>
+        <checkstyle-plugin.version>3.1.1</checkstyle-plugin.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
 
     <repositories>
-            <repository>
-                <id>jitpack.io</id>
-                <url>https://jitpack.io</url>
-            </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
-       <repository>
-         <id>github</id>
-         <name>GitHub Intempt's Apache Maven Packages</name>
-         <url>https://maven.pkg.github.com/intempt/avro</url>
-       </repository>
+        <repository>
+            <id>github</id>
+            <name>GitHub Intempt's Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/intempt/avro</url>
+        </repository>
     </distributionManagement>
 
 
-  <modules>
-    <module>dev-tools</module>
-    <module>lang/java</module>
-  </modules>
+    <modules>
+        <module>dev-tools</module>
+        <module>lang/java</module>
+    </modules>
 
 
-  <issueManagement>
-    <system>jira</system>
-    <url>http://issues.apache.org/jira/browse/AVRO</url>
-  </issueManagement>
+    <issueManagement>
+        <system>jira</system>
+        <url>http://issues.apache.org/jira/browse/AVRO</url>
+    </issueManagement>
 
-  <inceptionYear>2009</inceptionYear>
+    <inceptionYear>2009</inceptionYear>
 
-  <mailingLists>
-    <mailingList>
-      <name>Avro Developer List</name>
-      <subscribe>dev-subscribe@avro.apache.org</subscribe>
-      <unsubscribe>dev-unsubscribe@avro.apache.org</unsubscribe>
-      <post>dev@avro.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/avro-dev/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Avro Users List</name>
-      <subscribe>users-subscribe@avro.apache.org</subscribe>
-      <unsubscribe>users-unsubscribe@avro.apache.org</unsubscribe>
-      <post>users@avro.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/avro-users/</archive>
-    </mailingList>
-    <mailingList>
-      <name>Avro Commits List</name>
-      <subscribe>commits-subscribe@avro.apache.org</subscribe>
-      <unsubscribe>commits-unsubscribe@avro.apache.org</unsubscribe>
-      <post>commits@avro.apache.org</post>
-      <archive>http://mail-archives.apache.org/mod_mbox/avro-commits/</archive>
-    </mailingList>
-  </mailingLists>
+    <mailingLists>
+        <mailingList>
+            <name>Avro Developer List</name>
+            <subscribe>dev-subscribe@avro.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@avro.apache.org</unsubscribe>
+            <post>dev@avro.apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/avro-dev/</archive>
+        </mailingList>
+        <mailingList>
+            <name>Avro Users List</name>
+            <subscribe>users-subscribe@avro.apache.org</subscribe>
+            <unsubscribe>users-unsubscribe@avro.apache.org</unsubscribe>
+            <post>users@avro.apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/avro-users/</archive>
+        </mailingList>
+        <mailingList>
+            <name>Avro Commits List</name>
+            <subscribe>commits-subscribe@avro.apache.org</subscribe>
+            <unsubscribe>commits-unsubscribe@avro.apache.org</unsubscribe>
+            <post>commits@avro.apache.org</post>
+            <archive>http://mail-archives.apache.org/mod_mbox/avro-commits/</archive>
+        </mailingList>
+    </mailingLists>
 
-  <build>
-      <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-release-plugin</artifactId>
-              <version>2.5.3</version>
-              <configuration>
-                <useReleaseProfile>false</useReleaseProfile>
-                <goals>deploy</goals>
-                <arguments combine.self="override" />
-                <tagNameFormat>@{project.version}</tagNameFormat>
-              </configuration>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <configuration>
-                <trimStackTrace>false</trimStackTrace>
-              </configuration>
-            </plugin>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-javadoc-plugin</artifactId>
-              <configuration>
-                  <skip>true</skip>
-              </configuration>              
-            </plugin>
-
-          </plugins>
-      </pluginManagement>
-    <plugins>
-       <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <configuration>
-                <skip>true</skip>              
-            </configuration>
-       </plugin>
-       <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-release-plugin</artifactId>
-            <version>2.5.3</version>
-            <configuration>
-                   <autoVersionSubmodules>true</autoVersionSubmodules>
-                   <checkModificationExcludes>
-                       <checkModificationExclude>**/lang/csharp/**</checkModificationExclude>
-                       <checkModificationExclude>**/lang/php/**</checkModificationExclude>
-                   </checkModificationExcludes>
-            </configuration>
-       </plugin>   
-  <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>${enforcer-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>enforce-maven-version</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>[3.3.9,)</version>
-                </requireMavenVersion>
-              </rules>
-            </configuration>
-          </execution>
-          <execution>
-            <id>enforce</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-<!--   disable to attempt to make jitpack happy
-                <requireProperty>
-                  <property>project.version</property>
-                  <regex>${env.VERSION}</regex>
-                  <regexMessage>*****!!!!! Version of project must be ${env.VERSION} not ${project.version} !!!!!*****</regexMessage>
-                </requireProperty>
--->
-                <enforceBytecodeVersion>
-                  <maxJdkVersion>1.8</maxJdkVersion>
-                </enforceBytecodeVersion>
-                <requireJavaVersion>
-                  <version>[1.8,)</version>
-                </requireJavaVersion>
-              </rules>
-            </configuration>
-          </execution>
-          <execution>
-            <id>enforce-banned-dependencies</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <bannedDependencies>
-                  <excludes>
-                    <!-- 
-                    <exclude>com.google.code.findbugs:*</exclude>
-                    -->
-                    <exclude>org.hamcrest:hamcrest-all</exclude>
-                  </excludes>
-                </bannedDependencies>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>extra-enforcer-rules</artifactId>
-            <version>${extra-enforcer-rules.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-                <plugin> <!-- com.github.spotbugs:spotbugs-maven-plugin -->
-                    <groupId>com.github.spotbugs</groupId>
-                    <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>3.1.10</version>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
+                    <configuration>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <goals>deploy</goals>
+                        <arguments combine.self="override"/>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <trimStackTrace>false</trimStackTrace>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
                         <skip>true</skip>
-                        <failOnError>false</failOnError>
-                        <effort>Max</effort><!-- Min, Default, Max -->
-                        <threshold>Exp</threshold><!-- High, Default, Low, Ignore -->
-                        <xmlOutput>true</xmlOutput>
-                        <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                        <excludeFilterFile>${findbugs.excludeFilterFile}</excludeFilterFile>
-                        <includeTests>true</includeTests>
-                        <plugins>
-                            <plugin>
-                                <groupId>com.mebigfatguy.fb-contrib</groupId>
-                                <artifactId>fb-contrib</artifactId>
-                                <version>7.4.3.sb</version>
-                            </plugin>
-                            <plugin>
-                                <groupId>com.h3xstream.findsecbugs</groupId>
-                                <artifactId>findsecbugs-plugin</artifactId>
-                                <version>1.8.0</version>
-                            </plugin>
-                        </plugins>
                     </configuration>
-                    <executions>
-                        <execution>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
-    </plugins>
-  </build>
 
-  <profiles>
-    <profile>
-      <id>dist</id>
-      <!-- Profile for generating all maven artifacts and documentation. -->
-      <build>
+            </plugins>
+        </pluginManagement>
         <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <executions>
-              <execution>
-                <!-- build javadoc jars per jar for publishing to maven -->
-                <id>module-javadocs</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-              <execution>
-                <!-- build aggregate javadoc in parent only -->
-                <id>default-cli</id>
-                <goals>
-                  <goal>aggregate</goal>
-                </goals>
-                <inherited>false</inherited>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
                 <configuration>
-                  <overview>avro/src/main/java/overview.html</overview>
+                    <skip>true</skip>
                 </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-              <execution>
-                <!-- builds source jars and attaches them to the project for publishing -->
-                <id>avro-java-sources</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>package</phase>
-                <goals>
-                  <goal>enforce</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <checkModificationExcludes>
+                        <checkModificationExclude>**/lang/csharp/**</checkModificationExclude>
+                        <checkModificationExclude>**/lang/php/**</checkModificationExclude>
+                    </checkModificationExcludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${enforcer-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven-version</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.3.9,)</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>enforce</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <!--   disable to attempt to make jitpack happy
+                                                <requireProperty>
+                                                  <property>project.version</property>
+                                                  <regex>${env.VERSION}</regex>
+                                                  <regexMessage>*****!!!!! Version of project must be ${env.VERSION} not ${project.version} !!!!!*****</regexMessage>
+                                                </requireProperty>
+                                -->
+                                <enforceBytecodeVersion>
+                                    <maxJdkVersion>1.8</maxJdkVersion>
+                                </enforceBytecodeVersion>
+                                <requireJavaVersion>
+                                    <version>[1.8,)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>enforce-banned-dependencies</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                    <excludes>
+                                        <!--
+                                        <exclude>com.google.code.findbugs:*</exclude>
+                                        -->
+                                        <exclude>org.hamcrest:hamcrest-all</exclude>
+                                    </excludes>
+                                </bannedDependencies>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>extra-enforcer-rules</artifactId>
+                        <version>${extra-enforcer-rules.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin> <!-- com.github.spotbugs:spotbugs-maven-plugin -->
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.10</version>
+                <configuration>
+                    <skip>true</skip>
+                    <failOnError>false</failOnError>
+                    <effort>Max</effort><!-- Min, Default, Max -->
+                    <threshold>Exp</threshold><!-- High, Default, Low, Ignore -->
+                    <xmlOutput>true</xmlOutput>
+                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+                    <excludeFilterFile>${findbugs.excludeFilterFile}</excludeFilterFile>
+                    <includeTests>true</includeTests>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.mebigfatguy.fb-contrib</groupId>
+                            <artifactId>fb-contrib</artifactId>
+                            <version>7.4.3.sb</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>com.h3xstream.findsecbugs</groupId>
+                            <artifactId>findsecbugs-plugin</artifactId>
+                            <version>1.8.0</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>sign</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-                <skip>true</skip>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>rat</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <version>${antrun-plugin.version}</version>
-            <configuration>
-              <target name="rat">
-                <rat:report xmlns:rat="antlib:org.apache.rat.anttasks" reportFile="build/rat-report.log">
-                  <fileset dir="build/avro-src-${project.version}/" excludesfile="share/rat-excludes.txt" />
-                </rat:report>
-                <condition property="rat.passed">
-                  <isfileselected file="build/rat-report.log">
-                    <containsregexp expression="^0 Unknown Licenses" />
-                  </isfileselected>
-                </condition>
-                <fail unless="rat.passed">Unknown licenses: See build/rat-report.log.</fail>
-              </target>
-            </configuration>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.rat</groupId>
-                <artifactId>apache-rat-tasks</artifactId>
-                <version>${apache-rat-tasks.version}</version>
-              </dependency>
-            </dependencies>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>copy-artifacts</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <version>${antrun-plugin.version}</version>
-            <configuration>
-              <target name="copy-java-artifacts">
-                <mkdir dir="${avro.distDir}/java" />
-                <copy todir="${avro.distDir}/java" verbose="true">
-                  <flattenmapper />
-                  <fileset dir="lang/java/" includes="**/target/*${project.version}*.jar" excludes="**/original-*.jar **/*tests.jar" />
-                </copy>
+    </build>
 
-                <mkdir dir="${avro.docDir}" />
-                <copy todir="${avro.docDir}/java">
-                  <fileset dir="lang/java/target/site/apidocs" />
-                </copy>
-                <copy todir="build/avro-doc-${project.version}/trevni">
-                  <fileset dir="lang/java/trevni/doc/target/site" />
-                </copy>
-              </target>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+    <profiles>
+        <profile>
+            <id>dist</id>
+            <!-- Profile for generating all maven artifacts and documentation. -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <!-- build javadoc jars per jar for publishing to maven -->
+                                <id>module-javadocs</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <!-- build aggregate javadoc in parent only -->
+                                <id>default-cli</id>
+                                <goals>
+                                    <goal>aggregate</goal>
+                                </goals>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <overview>avro/src/main/java/overview.html</overview>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <!-- builds source jars and attaches them to the project for publishing -->
+                                <id>avro-java-sources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>rat</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${antrun-plugin.version}</version>
+                        <configuration>
+                            <target name="rat">
+                                <rat:report xmlns:rat="antlib:org.apache.rat.anttasks"
+                                            reportFile="build/rat-report.log">
+                                    <fileset dir="build/avro-src-${project.version}/"
+                                             excludesfile="share/rat-excludes.txt"/>
+                                </rat:report>
+                                <condition property="rat.passed">
+                                    <isfileselected file="build/rat-report.log">
+                                        <containsregexp expression="^0 Unknown Licenses"/>
+                                    </isfileselected>
+                                </condition>
+                                <fail unless="rat.passed">Unknown licenses: See build/rat-report.log.</fail>
+                            </target>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.rat</groupId>
+                                <artifactId>apache-rat-tasks</artifactId>
+                                <version>${apache-rat-tasks.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>copy-artifacts</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${antrun-plugin.version}</version>
+                        <configuration>
+                            <target name="copy-java-artifacts">
+                                <mkdir dir="${avro.distDir}/java"/>
+                                <copy todir="${avro.distDir}/java" verbose="true">
+                                    <flattenmapper/>
+                                    <fileset dir="lang/java/" includes="**/target/*${project.version}*.jar"
+                                             excludes="**/original-*.jar **/*tests.jar"/>
+                                </copy>
+
+                                <mkdir dir="${avro.docDir}"/>
+                                <copy todir="${avro.docDir}/java">
+                                    <fileset dir="lang/java/target/site/apidocs"/>
+                                </copy>
+                                <copy todir="build/avro-doc-${project.version}/trevni">
+                                    <fileset dir="lang/java/trevni/doc/target/site"/>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
