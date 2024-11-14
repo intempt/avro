@@ -39,7 +39,7 @@
       org.xerial.snappy;resolution:=optional,
       *
     </osgi.import>
-    <osgi.export>META-INF.services,org.apache.avro*;version="${project.version}"</osgi.export>
+    <osgi.export>org.apache.avro*;version="${project.version}"</osgi.export>
   </properties>
 
   <build>
