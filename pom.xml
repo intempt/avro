@@ -231,6 +231,11 @@
                         <artifactId>extra-enforcer-rules</artifactId>
                         <version>${extra-enforcer-rules.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                        <version>3.0.8</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <plugin> <!-- com.github.spotbugs:spotbugs-maven-plugin -->
