@@ -7,7 +7,7 @@ on:
       - '*'
 
 env:
-  java-version: 21
+  java-version: 8
   aws-region: us-east-1
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
   GH_USERNAME: ${{ secrets.GH_USERNAME }}
