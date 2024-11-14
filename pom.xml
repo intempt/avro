@@ -75,6 +75,24 @@
             <url>https://maven.pkg.github.com/intempt/avro</url>
         </repository>
     </distributionManagement>
+    <repositories>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/intempt/avro</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/intempt/avro</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 
     <modules>
