@@ -13,7 +13,7 @@ env:
   GH_USERNAME: ${{ secrets.GH_USERNAME }}
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: intempt-ubuntu-github-runner
     steps:
       - uses: actions/checkout@v2
 
@@ -61,4 +61,3 @@ jobs:
           MAVEN_USERNAME: GH_USERNAME
           MAVEN_PASSWORD: GH_TOKEN
         run: mvn --batch-mode deploy -Drevision-postfix=""
-
