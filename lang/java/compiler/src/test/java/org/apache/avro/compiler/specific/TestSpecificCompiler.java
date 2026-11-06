@@ -123,6 +123,20 @@ public class TestSpecificCompiler {
     return compiler;
   }
 
+  /**
+   * Velocity 1.7 treated an empty string as true in #if, so an empty doc still
+   * produced its (empty) javadoc. Velocity 2 must keep that output.
+   */
+  @Test
+  public void testEmptyDocKeepsVelocity17Output() {
+    Schema schema = new Schema.Parser().parse("{\"type\":\"record\",\"name\":\"EmptyDoc\","
+        + "\"namespace\":\"t\",\"doc\":\"\",\"fields\":[{\"name\":\"a\",\"type\":\"string\",\"doc\":\"\"}]}");
+    String out = new SpecificCompiler(schema).compile(schema).contents;
+    assertTrue(out, out.contains("/**  */\n@javax.annotation.ParametersAreNonnullByDefault"));
+    assertTrue(out, out.contains("   * @param a \n"));
+    assertTrue(out, out.contains("   * @return \n"));
+  }
+
   @Test
   public void testCanReadTemplateFilesOnTheFilesystem() throws IOException, URISyntaxException{
     SpecificCompiler compiler = createCompiler();

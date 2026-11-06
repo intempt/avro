@@ -211,9 +211,12 @@ public class SpecificCompiler {
     velocityEngine.addProperty("resource.loader.file.path", "/, .");
     velocityEngine.setProperty("runtime.strict_mode.enable", true);
 
-    // Velocity 2 logs through slf4j. Backward compatible whitespace gobbling
-    // keeps the generated sources identical to the Velocity 1.7 output.
+    // Velocity 2 logs through slf4j. Keep the Velocity 1.7 template semantics
+    // so the generated sources stay identical: backward compatible whitespace
+    // gobbling, and #if on an empty string (e.g. doc "") is true as in 1.7
+    // (Velocity 2 defaults directive.if.empty_check to true).
     velocityEngine.setProperty("parser.space_gobbling", "bc");
+    velocityEngine.setProperty("directive.if.empty_check", false);
   }
 
   /**
