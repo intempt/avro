@@ -4,15 +4,16 @@ Trunk (not yet released)
 
   INCOMPATIBLE CHANGES
 
-    Java: Upgrade Velocity 1.7 to velocity-engine-core 2.3 (CVE-2020-13936).
-    Custom templates passed to the compiler (templateDirectory) must use
-    $foreach.hasNext / $foreach.count instead of $velocityHasNext /
-    $velocityCount. The public nested class SpecificCompiler.Slf4jLogChute is
-    removed; Velocity 2 logs through slf4j directly. Generated code from the
-    bundled templates is unchanged. (INT-6299)
+    INT-6299: Java: Upgrade Velocity 1.7 to velocity-engine-core 2.3
+    (CVE-2020-13936). Custom templates passed to the compiler
+    (templateDirectory) must use $foreach.hasNext / $foreach.count instead of
+    $velocityHasNext / $velocityCount. The public nested class
+    SpecificCompiler.Slf4jLogChute is removed; Velocity 2 logs through slf4j
+    directly. Generated code from the bundled templates is unchanged. (intempt)
 
-    Java: Upgrade libthrift 0.9.3 to 0.16.0 (CVE-2019-0205) and ant 1.10.0 to
-    1.10.15 (CVE-2020-11979). (INT-6514, INT-6619)
+    INT-6514: Java: Upgrade libthrift 0.9.3 to 0.16.0 (CVE-2019-0205). (intempt)
+
+    INT-6619: Java: Upgrade ant 1.10.0 to 1.10.15 (CVE-2020-11979). (intempt)
 
   NEW FEATURES
 
