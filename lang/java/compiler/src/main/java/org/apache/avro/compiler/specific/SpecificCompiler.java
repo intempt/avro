@@ -219,6 +219,9 @@ public class SpecificCompiler {
     // (Velocity 2 defaults directive.if.empty_check to true).
     velocityEngine.setProperty("parser.space_gobbling", "bc");
     velocityEngine.setProperty("directive.if.empty_check", false);
+    // Velocity 1.7 read templates as ISO-8859-1 (input.encoding); Velocity 2
+    // defaults to UTF-8. Keep 1.7's encoding so custom templates read the same.
+    velocityEngine.setProperty("resource.default_encoding", "ISO-8859-1");
   }
 
   /**

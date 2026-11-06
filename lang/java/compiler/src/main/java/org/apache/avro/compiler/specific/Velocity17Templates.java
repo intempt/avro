@@ -31,14 +31,15 @@ import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
  * dropped the {@code $velocityCount} and {@code $velocityHasNext} loop
  * variables in favour of {@code $foreach.count} and {@code $foreach.hasNext};
  * the resource loaders below rewrite the old names while a template is read,
- * so custom templates (templateDirectory) need no change.
+ * so custom templates (templateDirectory) need no change. Escaped references
+ * ({@code \$velocityCount}) are left alone, as Velocity renders them literally.
  */
 public final class Velocity17Templates {
 
   private static final Pattern COUNT =
-      Pattern.compile("(\\$!?\\{?)velocityCount\\b");
+      Pattern.compile("(?<!\\\\)(\\$!?\\{?)velocityCount\\b");
   private static final Pattern HAS_NEXT =
-      Pattern.compile("(\\$!?\\{?)velocityHasNext\\b");
+      Pattern.compile("(?<!\\\\)(\\$!?\\{?)velocityHasNext\\b");
 
   private Velocity17Templates() {
   }

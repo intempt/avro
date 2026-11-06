@@ -128,6 +128,8 @@ public class TestSpecificCompiler {
     assertEquals("#if ($foreach.hasNext), #end ${foreach.count} $!foreach.count $velocityCountX",
         Velocity17Templates.rewrite(
             "#if ($velocityHasNext), #end ${velocityCount} $!velocityCount $velocityCountX"));
+    assertEquals("\\$velocityCount \\${velocityHasNext}",
+        Velocity17Templates.rewrite("\\$velocityCount \\${velocityHasNext}"));
   }
 
   /**
