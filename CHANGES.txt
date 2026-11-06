@@ -11,7 +11,9 @@ Trunk (not yet released)
     public nested class SpecificCompiler.Slf4jLogChute is removed, because the
     Velocity 1.7 LogChute interface it implemented no longer exists; Velocity 2
     logs through slf4j directly. Generated code from the bundled templates is
-    unchanged. (intempt)
+    unchanged. The standalone doc/examples (not part of the build) move from
+    Avro 1.7.5 to the upstream 1.10.2 release so they no longer pull in
+    Velocity 1.7. (intempt)
 
     INT-6514: Java: Upgrade libthrift 0.9.3 to 0.16.0 (CVE-2019-0205). (intempt)
 
@@ -30,10 +32,6 @@ Trunk (not yet released)
 
     INT-6619: Java: Upgrade ant 1.10.0 to 1.10.15 (CVE-2020-11979; provided
     scope, not shipped). (intempt)
-
-    INT-6299: Doc: the standalone examples in doc/examples (not part of the
-    build) move from Avro 1.7.5 to the upstream 1.10.2 release, the 1.10 line this
-    fork is based on, so they no longer pull in Velocity 1.7. (intempt)
 
     AVRO-1889: Update maven-shade-plugin to enable building in Java 8 on Mac.
     (Sachin Goyal via blue)
