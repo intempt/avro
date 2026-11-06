@@ -61,13 +61,14 @@ public class StatsServlet extends HttpServlet {
     this.velocityEngine = new VelocityEngine();
 
     // These two properties tell Velocity to use its own classpath-based loader
-    velocityEngine.addProperty("resource.loader", "class");
-    velocityEngine.addProperty("class.resource.loader.class",
+    velocityEngine.addProperty("resource.loaders", "class");
+    velocityEngine.addProperty("resource.loader.class.class",
         "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
-    velocityEngine.setProperty("runtime.references.strict", true);
-    String logChuteName = "org.apache.velocity.runtime.log.NullLogChute";
-    velocityEngine.setProperty("runtime.log.logsystem.class", logChuteName);
+    velocityEngine.setProperty("runtime.strict_mode.enable", true);
+    velocityEngine.setProperty("parser.space_gobbling", "bc");
+    velocityEngine.setProperty("directive.if.empty_check", false);
+    velocityEngine.setProperty("resource.default_encoding", "ISO-8859-1");
   }
 
   /* Helper class to store per-message data which is passed to templates.
