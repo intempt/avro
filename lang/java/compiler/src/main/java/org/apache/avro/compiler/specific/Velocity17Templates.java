@@ -32,22 +32,24 @@ import org.apache.velocity.runtime.resource.loader.FileResourceLoader;
  * variables in favour of {@code $foreach.count} and {@code $foreach.hasNext};
  * the resource loaders below rewrite the old names while a template is read,
  * so custom templates (templateDirectory) need no change. Escaped references
- * ({@code \$velocityCount}) are left alone, as Velocity renders them literally.
+ * ({@code \$velocityCount}, an odd number of backslashes) are left alone, as
+ * Velocity renders them literally; after an even number of backslashes the
+ * reference is live and is rewritten.
  */
 public final class Velocity17Templates {
 
   private static final Pattern COUNT =
-      Pattern.compile("(?<!\\\\)(\\$!?\\{?)velocityCount\\b");
+      Pattern.compile("(?<!\\\\)((?:\\\\\\\\)*)(\\$!?\\{?)velocityCount\\b");
   private static final Pattern HAS_NEXT =
-      Pattern.compile("(?<!\\\\)(\\$!?\\{?)velocityHasNext\\b");
+      Pattern.compile("(?<!\\\\)((?:\\\\\\\\)*)(\\$!?\\{?)velocityHasNext\\b");
 
   private Velocity17Templates() {
   }
 
   /** Rewrites the Velocity 1.7 loop variables of a template source. */
   static String rewrite(String template) {
-    String out = COUNT.matcher(template).replaceAll("$1foreach.count");
-    return HAS_NEXT.matcher(out).replaceAll("$1foreach.hasNext");
+    String out = COUNT.matcher(template).replaceAll("$1$2foreach.count");
+    return HAS_NEXT.matcher(out).replaceAll("$1$2foreach.hasNext");
   }
 
   static Reader rewrite(Reader reader) {

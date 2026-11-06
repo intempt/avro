@@ -68,6 +68,7 @@ public class StatsServlet extends HttpServlet {
     velocityEngine.setProperty("runtime.strict_mode.enable", true);
     velocityEngine.setProperty("parser.space_gobbling", "bc");
     velocityEngine.setProperty("directive.if.empty_check", false);
+    velocityEngine.setProperty("resource.default_encoding", "ISO-8859-1");
   }
 
   /* Helper class to store per-message data which is passed to templates.

@@ -130,6 +130,9 @@ public class TestSpecificCompiler {
             "#if ($velocityHasNext), #end ${velocityCount} $!velocityCount $velocityCountX"));
     assertEquals("\\$velocityCount \\${velocityHasNext}",
         Velocity17Templates.rewrite("\\$velocityCount \\${velocityHasNext}"));
+    // two backslashes render one literal backslash, the reference stays live
+    assertEquals("\\\\$foreach.count \\\\\\$velocityCount",
+        Velocity17Templates.rewrite("\\\\$velocityCount \\\\\\$velocityCount"));
   }
 
   /**

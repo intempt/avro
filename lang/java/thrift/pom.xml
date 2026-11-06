@@ -56,7 +56,7 @@
                     <mkdir dir="target/thrift-tmp" />
                     <exec executable="thrift">
                       <arg value="--gen" />
-                      <arg value="java:beans" />
+                      <arg value="java:beans,generated_annotations=undated" />
                       <arg value="-o" />
                       <arg value="target/thrift-tmp" />
                       <arg value="src/test/thrift/test.thrift" />

@@ -52,8 +52,8 @@
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-core</artifactId>
-      <version>1.1.0</version>
+      <artifactId>hadoop-client</artifactId>
+      <version>3.2.1</version>
     </dependency>
   </dependencies>
 </project>
