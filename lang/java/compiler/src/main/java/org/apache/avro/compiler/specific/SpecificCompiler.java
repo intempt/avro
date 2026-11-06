@@ -204,10 +204,12 @@ public class SpecificCompiler {
     // These  properties tell Velocity to use its own classpath-based
     // loader, then drop down to check the root and the current folder
     velocityEngine.addProperty("resource.loaders", "class, file");
+    // The loaders also accept the Velocity 1.7 $velocityCount/$velocityHasNext
+    // loop variables, so custom templates written for 1.7 keep working.
     velocityEngine.addProperty("resource.loader.class.class",
-        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity17Templates.ClasspathLoader.class.getName());
     velocityEngine.addProperty("resource.loader.file.class",
-        "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
+        Velocity17Templates.FileLoader.class.getName());
     velocityEngine.addProperty("resource.loader.file.path", "/, .");
     velocityEngine.setProperty("runtime.strict_mode.enable", true);
 

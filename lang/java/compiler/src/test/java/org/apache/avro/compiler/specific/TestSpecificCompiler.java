@@ -123,6 +123,41 @@ public class TestSpecificCompiler {
     return compiler;
   }
 
+  @Test
+  public void testVelocity17LoopVariablesAreRewritten() {
+    assertEquals("#if ($foreach.hasNext), #end ${foreach.count} $!foreach.count $velocityCountX",
+        Velocity17Templates.rewrite(
+            "#if ($velocityHasNext), #end ${velocityCount} $!velocityCount $velocityCountX"));
+  }
+
+  /**
+   * A custom template directory written for Velocity 1.7 ($velocityHasNext,
+   * $velocityCount) still renders, and renders the same code as the bundled
+   * templates.
+   */
+  @Test
+  public void testVelocity17CustomTemplatesStillWork() throws IOException {
+    File dir = AvroTestUtil.tempDirectory(getClass(), "velocity17-templates");
+    for (String name : new String[] {"record.vm", "enum.vm", "fixed.vm", "protocol.vm"}) {
+      String bundled = new String(Files.readAllBytes(new File(velocityTemplateDir, name).toPath()),
+          StandardCharsets.UTF_8);
+      String v17 = bundled.replace("$foreach.hasNext", "$velocityHasNext")
+          .replace("$foreach.count", "$velocityCount");
+      Files.write(new File(dir, name).toPath(), v17.getBytes(StandardCharsets.UTF_8));
+    }
+    Schema schema = new Schema.Parser().parse("{\"type\":\"record\",\"name\":\"R\","
+        + "\"namespace\":\"t\",\"fields\":[{\"name\":\"a\",\"type\":\"int\"},"
+        + "{\"name\":\"b\",\"type\":{\"type\":\"enum\",\"name\":\"E\",\"symbols\":[\"X\",\"Y\"]}}]}");
+    String expected = new SpecificCompiler(schema).compile(schema).contents;
+    SpecificCompiler custom = new SpecificCompiler(schema);
+    custom.setTemplateDir(dir.getAbsolutePath() + "/");
+    assertEquals(expected, custom.compile(schema).contents);
+    Schema e = schema.getField("b").schema();
+    SpecificCompiler customEnum = new SpecificCompiler(e);
+    customEnum.setTemplateDir(dir.getAbsolutePath() + "/");
+    assertEquals(new SpecificCompiler(e).compile(e).contents, customEnum.compile(e).contents);
+  }
+
   /**
    * Velocity 1.7 treated an empty string as true in #if, so an empty doc still
    * produced its (empty) javadoc. Velocity 2 must keep that output.
