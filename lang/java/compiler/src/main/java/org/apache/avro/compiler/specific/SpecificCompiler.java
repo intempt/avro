@@ -50,8 +50,6 @@ import org.apache.avro.specific.SpecificData;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeServices;
-import org.apache.velocity.runtime.log.LogChute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.apache.avro.specific.SpecificData.RESERVED_WORDS;
@@ -198,32 +196,24 @@ public class SpecificCompiler {
     this.createSetters = createSetters;
   }
 
-  private static String logChuteName = null;
+  private static final Logger LOG = LoggerFactory.getLogger(SpecificCompiler.class);
 
   private void initializeVelocity() {
     this.velocityEngine = new VelocityEngine();
 
     // These  properties tell Velocity to use its own classpath-based
     // loader, then drop down to check the root and the current folder
-    velocityEngine.addProperty("resource.loader", "class, file");
-    velocityEngine.addProperty("class.resource.loader.class",
+    velocityEngine.addProperty("resource.loaders", "class, file");
+    velocityEngine.addProperty("resource.loader.class.class",
         "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-    velocityEngine.addProperty("file.resource.loader.class",
+    velocityEngine.addProperty("resource.loader.file.class",
         "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
-    velocityEngine.addProperty("file.resource.loader.path", "/, .");
-    velocityEngine.setProperty("runtime.references.strict", true);
+    velocityEngine.addProperty("resource.loader.file.path", "/, .");
+    velocityEngine.setProperty("runtime.strict_mode.enable", true);
 
-    // try to use Slf4jLogChute, but if we can't use the null one.
-    if (null == logChuteName) {
-      // multiple threads can get here concurrently, but that's ok.
-      try {
-        new Slf4jLogChute();
-        logChuteName = Slf4jLogChute.class.getName();
-      } catch (Exception e) {
-        logChuteName = "org.apache.velocity.runtime.log.NullLogChute";
-      }
-    }
-    velocityEngine.setProperty("runtime.log.logsystem.class", logChuteName);
+    // Velocity 2 logs through slf4j. Backward compatible whitespace gobbling
+    // keeps the generated sources identical to the Velocity 1.7 output.
+    velocityEngine.setProperty("parser.space_gobbling", "bc");
   }
 
   /**
@@ -450,7 +440,7 @@ public class SpecificCompiler {
         calcAllArgConstructorParameterUnits(record) <= MAX_FIELD_PARAMETER_UNIT_COUNT;
 
     if (!this.createAllArgsConstructor)
-      new Slf4jLogChute().log(LogChute.WARN_ID, "Record '" + record.getFullName() +
+      LOG.warn("Record '" + record.getFullName() +
               "' contains more than " + MAX_FIELD_PARAMETER_UNIT_COUNT +
               " parameters which exceeds the JVM " +
               "spec for the number of permitted constructor arguments. Clients must " +
@@ -910,75 +900,6 @@ public class SpecificCompiler {
   public static void main(String[] args) throws Exception {
     //compileSchema(new File(args[0]), new File(args[1]));
     compileProtocol(new File(args[0]), new File(args[1]));
-  }
-
-  public static final class Slf4jLogChute implements LogChute {
-    private Logger logger = LoggerFactory.getLogger("AvroVelocityLogChute");
-    @Override
-    public void init(RuntimeServices rs) throws Exception {
-      // nothing to do
-    }
-
-    @Override
-    public void log(int level, String message) {
-      switch (level) {
-      case LogChute.DEBUG_ID:
-        logger.debug(message);
-        break;
-      case LogChute.TRACE_ID:
-        logger.trace(message);
-        break;
-      case LogChute.WARN_ID:
-        logger.warn(message);
-        break;
-      case LogChute.ERROR_ID:
-        logger.error(message);
-        break;
-      default:
-      case LogChute.INFO_ID:
-        logger.info(message);
-        break;
-      }
-    }
-
-    @Override
-    public void log(int level, String message, Throwable t) {
-      switch (level) {
-      case LogChute.DEBUG_ID:
-        logger.debug(message, t);
-        break;
-      case LogChute.TRACE_ID:
-        logger.trace(message, t);
-        break;
-      case LogChute.WARN_ID:
-        logger.warn(message, t);
-        break;
-      case LogChute.ERROR_ID:
-        logger.error(message, t);
-        break;
-      default:
-      case LogChute.INFO_ID:
-        logger.info(message, t);
-        break;
-      }
-    }
-
-    @Override
-    public boolean isLevelEnabled(int level) {
-      switch (level) {
-      case LogChute.DEBUG_ID:
-        return logger.isDebugEnabled();
-      case LogChute.TRACE_ID:
-        return logger.isTraceEnabled();
-      case LogChute.WARN_ID:
-        return logger.isWarnEnabled();
-      case LogChute.ERROR_ID:
-        return logger.isErrorEnabled();
-      default:
-      case LogChute.INFO_ID:
-        return logger.isInfoEnabled();
-      }
-    }
   }
 
   /** Sets character encoding for generated java file
