@@ -15,6 +15,10 @@ Trunk (not yet released)
 
     INT-6619: Java: Upgrade ant 1.10.0 to 1.10.15 (CVE-2020-11979). (intempt)
 
+    INT-6299: Doc: the standalone examples in doc/examples (not part of the
+    build) move from Avro 1.7.5 to the upstream 1.10.2 release, the 1.10 line this
+    fork is based on, so they no longer pull in Velocity 1.7. (intempt)
+
   NEW FEATURES
 
     AVRO-1704: Java: Add support for single-message encoding. (blue)
